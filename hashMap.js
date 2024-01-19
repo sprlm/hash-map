@@ -41,7 +41,6 @@ class HashMap {
     
     // overwrite value if key already exists
     if (this.bucketsArray[bucketIndex] !== null) {
-      console.log(this.bucketsArray);
       for (let i = 0; i < this.bucketsArray[bucketIndex].length; i++) {
         if (this.bucketsArray[bucketIndex][i][0] === key) {
           this.bucketsArray[bucketIndex][i][1] = value;
