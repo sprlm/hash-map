@@ -1,11 +1,8 @@
 class HashMap {
   #loadFactor = 0.75;
-
-  constructor() {
-    this.bucketsSize = 16;
-    this.bucketsArray = new Array(this.bucketsSize).fill(null).map(() => new Array().fill(null));
-    this.currentLoad = 0;
-  }
+  #bucketsSize = 16;
+  #bucketsArray = new Array(this.#bucketsSize).fill(null).map(() => new Array().fill(null));
+  #currentLoad = 0;
 
   #hash(string) {
     let hashCode = 0;
@@ -21,41 +18,41 @@ class HashMap {
 
   set(key, value) {
     // if load factor is reached, expand bucket size and rehash all previous contents
-    if (this.currentLoad / this.bucketsSize >= this.#loadFactor) {
-      let arrayValues = this.bucketsArray.flat(1);
-      this.bucketsSize *= 2;
-      this.bucketsArray = new Array(this.bucketsSize).fill(null).map(() => new Array().fill(null));
-      this.currentLoad = 0;
+    if (this.#currentLoad / this.#bucketsSize >= this.#loadFactor) {
+      let arrayValues = this.#bucketsArray.flat(1);
+      this.#bucketsSize *= 2;
+      this.#bucketsArray = new Array(this.#bucketsSize).fill(null).map(() => new Array().fill(null));
+      this.#currentLoad = 0;
 
       arrayValues.forEach((pair) => {
         this.set(...pair);
       });
     }
 
-    let bucketIndex = this.#hash(key) % this.bucketsSize;
+    let bucketIndex = this.#hash(key) % this.#bucketsSize;
     
     // normally javascript allows indexing arrays past their size, this throws an error instead
-    if (bucketIndex < 0 || bucketIndex >= this.bucketsSize) {
+    if (bucketIndex < 0 || bucketIndex >= this.#bucketsSize) {
       throw new Error("Trying to access index out of bound");
     }
     
     // overwrite value if key already exists
-    if (this.bucketsArray[bucketIndex] !== null) {
-      for (let i = 0; i < this.bucketsArray[bucketIndex].length; i++) {
-        if (this.bucketsArray[bucketIndex][i][0] === key) {
-          this.bucketsArray[bucketIndex][i][1] = value;
+    if (this.#bucketsArray[bucketIndex] !== null) {
+      for (let i = 0; i < this.#bucketsArray[bucketIndex].length; i++) {
+        if (this.#bucketsArray[bucketIndex][i][0] === key) {
+          this.#bucketsArray[bucketIndex][i][1] = value;
           return;
         }
       }
     }
 
     // if key doesn't exist yet, add it and increment currentLoad 
-    this.bucketsArray[bucketIndex].push([key, value]);
-    this.currentLoad++;
+    this.#bucketsArray[bucketIndex].push([key, value]);
+    this.#currentLoad++;
   }
 
   get(key) {
-    let bucket = this.bucketsArray[this.#hash(key) % this.bucketsSize];
+    let bucket = this.#bucketsArray[this.#hash(key) % this.#bucketsSize];
     
     if (bucket !== null) {
       for (let i = 0; i < bucket.length; i++) {
@@ -69,7 +66,7 @@ class HashMap {
   }
 
   has(key) {
-    let bucket = this.bucketsArray[this.#hash(key) % this.bucketsSize];
+    let bucket = this.#bucketsArray[this.#hash(key) % this.#bucketsSize];
     
     if (bucket !== null) {
       for (let i = 0; i < bucket.length; i++) {
@@ -83,13 +80,13 @@ class HashMap {
   }
 
   remove(key) {
-    let bucket = this.bucketsArray[this.#hash(key) % this.bucketsSize];
+    let bucket = this.#bucketsArray[this.#hash(key) % this.#bucketsSize];
     
     if (bucket !== null) {
       for (let i = 0; i < bucket.length; i++) {
         if (bucket[i][0] == key) {
-          this.bucketsArray[this.#hash(key) % this.bucketsSize].splice(i, 1);
-          this.currentLoad--;
+          this.#bucketsArray[this.#hash(key) % this.#bucketsSize].splice(i, 1);
+          this.#currentLoad--;
           return true;
         }
       }
@@ -99,20 +96,20 @@ class HashMap {
   }
 
   length() {
-    return this.currentLoad;
+    return this.#currentLoad;
   }
 
   clear() {
-    this.bucketsArray = new Array(this.bucketsSize).fill(null).map(() => new Array().fill(null));
-    this.currentLoad = 0;
+    this.#bucketsArray = new Array(this.#bucketsSize).fill(null).map(() => new Array().fill(null));
+    this.#currentLoad = 0;
   }
 
   keys() {
     let keys = [];
     let currentBucket;
 
-    for (let i = 0; i < this.bucketsSize; i++) {
-      currentBucket = this.bucketsArray[i];
+    for (let i = 0; i < this.#bucketsSize; i++) {
+      currentBucket = this.#bucketsArray[i];
       for (let j = 0; j < currentBucket.length; j++) {
         keys.push(currentBucket[j][0]);
       }
@@ -125,8 +122,8 @@ class HashMap {
     let values = [];
     let currentBucket;
 
-    for (let i = 0; i < this.bucketsSize; i++) {
-      currentBucket = this.bucketsArray[i];
+    for (let i = 0; i < this.#bucketsSize; i++) {
+      currentBucket = this.#bucketsArray[i];
       for (let j = 0; j < currentBucket.length; j++) {
         values.push(currentBucket[j][1]);
       }
@@ -139,8 +136,8 @@ class HashMap {
     let entries = [];
     let currentBucket;
   
-    for (let i = 0; i < this.bucketsSize; i++) {
-      currentBucket = this.bucketsArray[i];
+    for (let i = 0; i < this.#bucketsSize; i++) {
+      currentBucket = this.#bucketsArray[i];
       for (let j = 0; j < currentBucket.length; j++) {
         entries.push(currentBucket[j]);
       }
