@@ -97,6 +97,10 @@ class HashMap {
 
     return false;
   }
+
+  length() {
+    return this.currentLoad;
+  }
 }
 
 let hm = new HashMap();
