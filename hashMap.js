@@ -54,6 +54,20 @@ class HashMap {
     this.bucketsArray[bucketIndex].push([key, value]);
     this.currentLoad++;
   }
+
+  get(key) {
+    let bucket = this.bucketsArray[this.#hash(key) % this.bucketsSize];
+    
+    if (bucket !== null) {
+      for (let i = 0; i < bucket.length; i++) {
+        if (bucket[i][0] == key) {
+          return bucket[i][1];
+        }
+      }
+    }
+
+    return null;
+  }
 }
 
 let hm = new HashMap();
