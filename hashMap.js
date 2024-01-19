@@ -120,6 +120,20 @@ class HashMap {
 
     return keys;
   }
+
+  values() {
+    let values = [];
+    let currentBucket;
+
+    for (let i = 0; i < this.bucketsSize; i++) {
+      currentBucket = this.bucketsArray[i];
+      for (let j = 0; j < currentBucket.length; j++) {
+        values.push(currentBucket[j][1]);
+      }
+    }
+
+    return values;
+  }
 }
 
 let hm = new HashMap();
