@@ -134,6 +134,20 @@ class HashMap {
 
     return values;
   }
+
+  entries() {
+    let entries = [];
+    let currentBucket;
+  
+    for (let i = 0; i < this.bucketsSize; i++) {
+      currentBucket = this.bucketsArray[i];
+      for (let j = 0; j < currentBucket.length; j++) {
+        entries.push(currentBucket[j]);
+      }
+    }
+  
+    return entries;
+  }
 }
 
 let hm = new HashMap();
