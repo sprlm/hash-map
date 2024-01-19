@@ -101,6 +101,11 @@ class HashMap {
   length() {
     return this.currentLoad;
   }
+
+  clear() {
+    this.bucketsArray = new Array(this.bucketsSize).fill(null).map(() => new Array().fill(null));
+    this.currentLoad = 0;
+  }
 }
 
 let hm = new HashMap();
