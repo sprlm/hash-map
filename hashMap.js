@@ -106,6 +106,20 @@ class HashMap {
     this.bucketsArray = new Array(this.bucketsSize).fill(null).map(() => new Array().fill(null));
     this.currentLoad = 0;
   }
+
+  keys() {
+    let keys = [];
+    let currentBucket;
+
+    for (let i = 0; i < this.bucketsSize; i++) {
+      currentBucket = this.bucketsArray[i];
+      for (let j = 0; j < currentBucket.length; j++) {
+        keys.push(currentBucket[j][0]);
+      }
+    }
+
+    return keys;
+  }
 }
 
 let hm = new HashMap();
