@@ -149,11 +149,3 @@ class HashMap {
     return entries;
   }
 }
-
-let hm = new HashMap();
-
-hm.set('a', 1);
-hm.set('b', 2);
-hm.set('c', 3);
-hm.set('d', 4);
-hm.set('e', 5);
